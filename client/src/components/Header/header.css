@@ -1,0 +1,39 @@
+header {
+    height: 8vh;
+    width: 100%;
+    background-color: cornflowerblue;
+    top: 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: x-large;
+}
+
+.wrapper {
+    display: flex;
+    width: 30vw;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 2vh 0;
+}
+
+.auth {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+}
+
+.button {
+    margin: 0 10px;
+}
+
+.item {
+    justify-content: center;
+    padding: 2px 4px;
+    border: 1px solid white;
+    border-radius: 10px;
+    text-align: center;
+}
