@@ -1,13 +1,37 @@
+import { useDispatch } from "react-redux";
 import Input from "../Inputs";
 import SelectInput from "../Inputs/SelectInput";
 import Button from "../Button";
-import { categoryOptions, paymentMethodOptions } from "../../Lib/constants";
+import { baseUrl, categoryOptions, paymentMethodOptions } from "../../Lib/constants";
 import "./form.css";
+import customFetch from "../../Lib/customFetch";
 
 export default function FinanceForm() {
+    const dispatch = useDispatch();
     async function submit(e) {
         e.preventDefault();
-        console.log("sumit");
+        const formData = new FormData(e.target);
+        const title = formData.get("title");
+        const money = formData.get("money");
+        const date = formData.get("date");
+        const category = formData.get("category");
+        const paymentMethod = formData.get("paymentMethod");
+        try {
+            const response = await customFetch(`${baseUrl}/addExpense`, 'POST', JSON.stringify({
+                title,
+                money,
+                date,
+                category,
+                payment_method: paymentMethod
+            }), {
+                'Content-Type': 'application/json'
+            })
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error("Error: ", error);
+        }
+        
     }
 
     return (

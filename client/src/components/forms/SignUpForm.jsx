@@ -1,10 +1,17 @@
+import { useDispatch } from "react-redux";
 import Input from "../Inputs";
 import Button from "../Button";
+import { createUser } from "../../store/signUpSlice";
 
 export default function SignUpForm() {
+  const dispatch = useDispatch();
   async function submit(e) {
     e.preventDefault();
-    console.log("Submit");
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    dispatch(createUser({ name, email, password }));
   }
 
   return (
