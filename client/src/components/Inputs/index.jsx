@@ -7,11 +7,11 @@ export default function Input({
   name,
   value,
   className,
-  onChange,
+  onTextChange = (v) => {},
 }) {
     const [showPassword, setShowPassword] = useState(false);
     const inputType = showPassword ? 'text' : type || "text"
-    const handleChange = (e) => onChange(e)
+    const handleChange = (e) => onTextChange(e.target.value)
   return (
 
     <input

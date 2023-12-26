@@ -1,0 +1,22 @@
+.expense-item {
+    height: 80px;
+    width: 90%;
+    position: relative;
+    margin: 5%;
+}
+
+.line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.date {
+    position: absolute;
+    right: 10px;
+}
+
+hr {
+    border: 1px solid gray;
+}

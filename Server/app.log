@@ -1,0 +1,1 @@
+2023-12-26 10:30:11,077 - ERROR - Error during sign up: 'NoneType' object has no attribute 'encode'

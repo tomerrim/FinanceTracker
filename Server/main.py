@@ -31,6 +31,12 @@ with app.app_context():
     db.create_all()
 
 
+@app.route("/")
+def home():
+    all_users = User.query.all()
+    return jsonify({"users": "welcome"})
+
+
 @app.route("/signUp", methods=["POST"])
 def sign_up():
     try:
@@ -62,6 +68,7 @@ def sign_up():
 def sign_in():
     pass
 
+
 @app.route("/<int:user_id>/finance")
 def get_finance_by_user(user_id):
     user = db.get_or_404(User, user_id)
@@ -81,6 +88,7 @@ def get_finance_by_user(user_id):
         ]
         return jsonify({"user_payments": payments_list}), 200
     return jsonify({"message": "User not found"}), 404
+
 
 @app.route("/addExpense", methods=["POST"])
 def add_expense():
