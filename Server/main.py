@@ -1,12 +1,17 @@
-from flask import Flask, jsonify, request, flash, redirect, url_for
+from flask import Flask, jsonify, request, flash, redirect, url_for, session
 from flask_cors import CORS
 import logging
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user
 from sqlalchemy.exc import IntegrityError, DataError
 from database import db, Payment, User
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY")
 
 CORS(app)
 
@@ -33,40 +38,60 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    all_users = User.query.all()
-    return jsonify({"users": "welcome"})
+    return jsonify({"message": "welcome to Finance Tracker"})
 
 
 @app.route("/signUp", methods=["POST"])
 def sign_up():
     try:
-        name = request.form.get("name")
-        email = request.form.get("email")
+        if request.form:
+            app.logger.debug(f"Received form data: {request.form}")
 
-        result = db.session.execute(db.select(User).where(User.email == email))
-        user = result.scalar()
-        if user:
-            flash("You've already signed up with that email. Log in instead!")
-            return redirect(url_for("sign_in"))
+            name = request.form.get("name")
+            email = request.form.get("email")
 
-        password = request.form.get("password")
-        secured_password = generate_password_hash(
-            password=password, method="pbkdf2:sha256", salt_length=8
-        )
-        new_user = User(email=email, name=name, password=secured_password)
-        db.session.add(new_user)
-        db.session.commit()
-        login_user(new_user)
-        return jsonify({"success": "Successfully registered new user"}), 201
+            result = db.session.execute(db.select(User).where(User.email == email))
+            user = result.scalar()
+            if user:
+                flash("You've already signed up with that email. Log in instead!")
+                return redirect(url_for("sign_in"))
+
+            password = request.form.get("password")
+            secured_password = generate_password_hash(
+                password=password, method="pbkdf2:sha256", salt_length=8
+            )
+            new_user = User(email=email, name=name, password=secured_password)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return jsonify({"success": "Successfully registered new user"}), 201
+        else:
+            return jsonify({"error": "No form data received"}), 400
     except Exception as e:
         app.logger.error(f"Error during sign up: {str(e)}")
-        flash("An error occured while signing up. Please try Again.")
-        return redirect(url_for("signUp"))
+        return jsonify({"error": "An error occurred during sign up. Please try again."}), 500
+        # flash("An error occured while signing up. Please try Again.")
+        # return redirect(url_for("sign_up"))
 
 
 @app.route("/signIn", methods=["POST"])
 def sign_in():
-    pass
+    try:
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            # User authentication successful
+            # You may use Flask-Login's login_user function here if you are using it
+            login_user(user)
+            session['user_id'] = user.id  # Store user ID in session
+            return jsonify({"success": "Sign in successful", "user_id": user.id}), 200
+        else:
+            return jsonify({"error": "Invalid credentials"}), 401
+    except Exception as e:
+        app.logger.error(f"Error during sign in: {str(e)}")
+        return jsonify({"error": "An error occurred during sign in"}), 500
 
 
 @app.route("/<int:user_id>/finance")

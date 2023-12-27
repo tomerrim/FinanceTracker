@@ -11,11 +11,12 @@ export default function SignUpForm() {
     const name = formData.get("name");
     const email = formData.get("email");
     const password = formData.get("password");
+    console.log("Form data to send:", { name, email, password });
     dispatch(createUser({ name, email, password }));
   }
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} method="POST">
       <Input placeholder="Name" name="name" />
       <Input type="email" placeholder="Email" name="email" />
       <Input type="password" placeholder="Password" name="password" />

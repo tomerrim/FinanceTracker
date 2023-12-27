@@ -2,8 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import customFetch from "../Lib/customFetch";
 
 export const createUser = createAsyncThunk(
-    'signUpSlice/createUser', 
-    async (userData) => await customFetch('signUp', 'POST', userData)
+  "signUpSlice/createUser",
+  async (userData) =>
+    await customFetch("signUp", "POST", userData, {
+      "Content-Type": "application/x-www-form-urlencoded",
+    })
 );
 
 export const signUpSlice = createSlice({

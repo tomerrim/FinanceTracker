@@ -13,9 +13,14 @@ export default function Header() {
     navigate('/signUp')
   }
 
+  function navToHome() {
+    navigate('/');
+  }
+
   return (
     <header className="header">
       <nav>
+      <Button onClick={navToHome}>Home</Button>
         <div className="wrapper">
           <div className="item">Item 1</div>
           <div className="item">Item 2</div>

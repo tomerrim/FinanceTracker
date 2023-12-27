@@ -9,7 +9,7 @@ nav {
     display: flex;
     align-items: center;
     font-weight: 500;
-    font-size: x-large;
+    font-size: larger;
 }
 
 .wrapper {
@@ -33,7 +33,13 @@ nav {
 .item {
     justify-content: center;
     padding: 2px 4px;
-    border: 1px solid white;
+    background-color: #7cadf8;
     border-radius: 10px;
     text-align: center;
+    height: 30px;
+}
+
+.item:hover {
+    background-color: #6ba2e4;
+    cursor: pointer;
 }
