@@ -3,3 +3,20 @@ main {
     padding: 2rem;
     margin: 0 auto;
 }
+
+img {
+    width: 60vh;
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    img {
+        width: 40vh;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    img {
+        width: 25vh;
+    }
+}

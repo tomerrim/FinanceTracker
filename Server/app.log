@@ -28,3 +28,49 @@
 2023-12-27 22:39:34,753 - ERROR - Error during sign up: 'NoneType' object has no attribute 'encode'
 2023-12-27 22:45:17,874 - ERROR - Error during sign up: 'NoneType' object has no attribute 'encode'
 2023-12-27 22:54:45,521 - DEBUG - Received form data: ImmutableMultiDict([('name', 'test'), ('email', 'test@gmail.com'), ('password', 'test2345')])
+2023-12-29 19:41:26,203 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.title
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (None, None, None, None, None, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 19:42:54,259 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.title
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (None, None, None, None, None, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 19:44:11,212 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.title
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (None, None, None, None, None, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 21:42:31,714 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.date
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: ('pizza', None, 50.0, 'utilities', None, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 21:45:24,042 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.date
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: ('pizza', None, 50.0, 'utilities', None, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 22:00:49,012 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.date
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: ('pizza', None, 50.0, 'utilities', None, 51)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 22:04:22,601 - ERROR - Failed to add expense: (sqlite3.IntegrityError) NOT NULL constraint failed: payments.date
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: ('pizza', None, 50.0, 'utilities', None, 51)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2023-12-29 22:12:15,121 - ERROR - Failed to add expense: (builtins.TypeError) SQLite Date type only accepts Python date objects as input.
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: [{'category': 'utilities', 'money': '50', 'date': '2023-12-28', 'title': 'pizza', 'user_id': 51, 'payment_method': 'Credit Card'}]]
+2023-12-29 22:18:42,796 - ERROR - Failed to add expense: (builtins.TypeError) SQLite Date type only accepts Python date objects as input.
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: [{'date': '2023-12-28T00:00:00.000Z', 'user_id': 51, 'money': '50', 'payment_method': 'Credit Card', 'title': 'pizza', 'category': 'utilities'}]]
+2023-12-29 22:22:38,838 - ERROR - Failed to add expense: 'str' object cannot be interpreted as an integer
+2023-12-29 22:29:45,274 - ERROR - Failed to add expense: time data '2023-12-28' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
+2023-12-29 22:37:39,896 - ERROR - Failed to add expense: (builtins.TypeError) SQLite Date type only accepts Python date objects as input.
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: [{'money': '40', 'title': 'pizza', 'date': '2023-12-28 00:00:00', 'payment_method': 'Credit Card', 'user_id': 51, 'category': 'utilities'}]]
+2023-12-29 22:41:12,704 - ERROR - Failed to add expense: (builtins.TypeError) SQLite Date type only accepts Python date objects as input.
+[SQL: INSERT INTO payments (title, date, money, category, payment_method, user_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: [{'category': 'utilities', 'payment_method': 'Credit Card', 'date': '2023-12-28 00:00:00', 'title': 'pizza', 'user_id': 51, 'money': '50'}]]
+2023-12-29 22:46:20,072 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
+2023-12-29 22:46:45,480 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
+2023-12-29 22:47:35,238 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
+2023-12-29 22:48:06,782 - ERROR - Error during sign in: Object of type Payment is not JSON serializable

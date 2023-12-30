@@ -6,6 +6,7 @@ from flask_login import login_user, LoginManager, current_user, logout_user
 from sqlalchemy.exc import IntegrityError, DataError
 from database import db, Payment, User
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 
 load_dotenv()
@@ -86,7 +87,26 @@ def sign_in():
             # You may use Flask-Login's login_user function here if you are using it
             login_user(user)
             session['user_id'] = user.id  # Store user ID in session
-            return jsonify({"success": "Sign in successful", "user_id": user.id}), 200
+
+            payments_list = [
+                {
+                    "id": payment.id,
+                    "title": payment.title,
+                    "date": payment.date.strftime("%Y-%m-%d"),
+                    "money": payment.money,
+                    "category": payment.category,
+                    "payment_method": payment.payment_method
+                }
+                for payment in user.payments
+            ]
+
+            user_data = {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "payments": payments_list
+            }
+            return jsonify({"success": "Sign in successful", "user": user_data}), 200
         else:
             return jsonify({"error": "Invalid credentials"}), 401
     except Exception as e:
@@ -115,19 +135,39 @@ def get_finance_by_user(user_id):
     return jsonify({"message": "User not found"}), 404
 
 
-@app.route("/addExpense", methods=["POST"])
-def add_expense():
+@app.route("/users/<int:user_id>", methods=["GET"])
+def get_user_by_id(user_id):
+    user = db.get_or_404(User, user_id)
+    if user:
+        user_data = {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "payments": user.payments
+        }
+        return jsonify(user_data), 200
+    else:
+        return jsonify({"error": "User not fount"}), 404
+
+
+@app.route("/<int:user_id>/addExpense", methods=["POST"])
+def add_expense(user_id):
     try:
         title = request.form.get("title")
         money = request.form.get("money")
         category = request.form.get("category")
-        date = request.form.get("date")
+        date_str = request.form.get("date")
         payment_method = request.form.get("payment_method")
+
+        # Parse the date string without time information
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+
         new_payment = Payment(
+            user_id=user_id,
             title=title,
             money=money,
             category=category,
-            date=date,
+            date=date_obj,
             payment_method=payment_method,
         )
         db.session.add(new_payment)

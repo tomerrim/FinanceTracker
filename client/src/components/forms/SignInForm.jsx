@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Input from "../Inputs";
 import Button from "../Button";
-import { fetchUser } from "../../store/userSlice";
+import { fetchUser, updatePayments } from "../../store/userSlice";
 
 export default function SignInForm() {
   const navigate = useNavigate();
@@ -15,10 +15,8 @@ export default function SignInForm() {
     const password = formData.get("password");
     try {
       const response = await dispatch(fetchUser({ email, password }));
-      console.log(response)
-      navigate(`/${response.payload.user_id}/finance`);
-      // if (response && response.user_id) {
-      // }
+      dispatch(updatePayments(response.payload.user.payments))
+      navigate(`/${response.payload.user.id}/finance`);
     } catch (error) {
       console.error("Error: ", error);
     }
