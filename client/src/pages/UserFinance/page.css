@@ -8,3 +8,10 @@ h2 {
     justify-content: space-between;
     padding: 10px 20px;
 }
+
+.sortInput {
+    display: flex;
+    justify-content: end;
+    width: 10%;
+    margin-left: 20px;
+}

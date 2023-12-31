@@ -12,6 +12,11 @@ nav {
     font-size: larger;
 }
 
+span {
+    display: flex;
+    align-items: center;
+}
+
 .wrapper {
     display: flex;
     width: 30vw;
@@ -32,9 +37,9 @@ nav {
 
 .item {
     justify-content: center;
-    padding: 2px 4px;
+    padding: 5px 10px;
     background-color: #7cadf8;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     height: 30px;
 }

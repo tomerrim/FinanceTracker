@@ -1,9 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../store/userSlice";
 import Button from "../Button";
 import "./header.css";
 
 export default function Header() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(state => state.userSlice.user);
 
   function navToSignIn() {
     navigate("/signIn")
@@ -17,18 +21,36 @@ export default function Header() {
     navigate('/');
   }
 
+  function logoutUser() {
+    dispatch(logout());
+    navToHome();
+  }
+
   return (
     <header className="header">
       <nav>
-      <Button onClick={navToHome}>Home</Button>
+        <Button onClick={navToHome}>Home</Button>
         <div className="wrapper">
-          <div className="item">Item 1</div>
-          <div className="item">Item 2</div>
-          <div className="item">Item 3</div>
+          {user ? (
+            <>
+              <Link to={`/${user.id}/finance`} className="item">Finance</Link>
+              <Link to={`/${user.id}/finance`} className="item">Charts</Link>  
+              {/* add charts later */}
+            </>
+            ) : <>Welcome to Finance tracker</>}
         </div>
         <div className="auth">
-          <Button onClick={navToSignIn}>Sign In</Button>
-          <Button onClick={navToSignUp}>Sign Up</Button>
+          {user === null ? (
+            <>
+              <Button onClick={navToSignUp}>Sign Up</Button>
+              <Button onClick={navToSignIn}>Sign In</Button>
+            </>
+          ) : (
+            <>
+              <span>Hello, {user?.name}</span>
+              <Button onClick={logoutUser}>Log Out</Button>
+            </>
+          )}
         </div>
       </nav>
     </header>

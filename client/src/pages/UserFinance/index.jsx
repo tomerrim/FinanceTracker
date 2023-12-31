@@ -3,45 +3,54 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ExpenseItem from "../../components/ExpenseItem";
 import Button from "../../components/Button";
+import SelectInput from "../../components/Inputs/SelectInput";
 import "./page.css";
+import { sortOptions } from "../../Lib/constants";
+import { sortPayments, sumExpenses } from "../../Lib/utils";
 
-export default function UserFinance(){
-    const navigate = useNavigate();
-    const [userPayments, setUserPayments] = useState([]);
-    const user = useSelector(state => state.userSlice.user);
-    const payments = useSelector(state => state.userSlice.payments);
-    // console.log("payments: ",payments)
-    const totalExpenses = payments.reduce((total, expense) => {
-      const expenseMoney = parseFloat(expense.money);
-      return isNaN(expenseMoney) ? total : total + expenseMoney;
-    }, 0);
-    
-    function navToAddExpensePage() {
-      navigate(`/${user.id}/addExpense`);
-    }
+export default function UserFinance() {
+  const navigate = useNavigate();
+  const [userPayments, setUserPayments] = useState([]);
+  const [sortBy, setSortBy] = useState("");
+  const user = useSelector((state) => state.userSlice.user);
+  const payments = useSelector((state) => state.userSlice.payments);
+  const totalExpenses = sumExpenses(payments);
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-              setUserPayments(payments);
-            } catch (error) {
-              console.error('Error fetching data: ', error);
-            }
-        }
+  function navToAddExpensePage() {
+    navigate(`/${user.id}/addExpense`);
+  }
 
-        fetchData();
-    }, [payments]);
+  function handleSortChange(e) {
+    const selectedOption = e.target.value;
+    setSortBy(selectedOption);
+  }
 
-    return (
-      <>
-        <h2>Your Finances</h2>
-        <div className="row">
-          <h3 className="total">Total: {totalExpenses}₪</h3>
-          <Button onClick={navToAddExpensePage}>Add Expense</Button>
-        </div>
-        {userPayments.map((payment) => (
-          <ExpenseItem {...payment} key={payment.id} />
-        ))}
-      </>
-    );
+  useEffect(() => { 
+    setUserPayments(payments);
+  }, [payments]);
+
+  useEffect(() => {
+    const sortedPayments = sortPayments(payments, sortBy);
+    setUserPayments(sortedPayments);
+  }, [sortBy, payments])
+
+  return (
+    <>
+      <h2>Your Finances</h2>
+      <div className="row">
+        <h3 className="total">Total: {totalExpenses}₪</h3>
+        <Button onClick={navToAddExpensePage}>Add Expense</Button>
+      </div>
+      <SelectInput
+        options={sortOptions}
+        title="Sort By"
+        name="sortBy"
+        className="sortInput"
+        onChange={handleSortChange}
+      />
+      {userPayments.map((payment) => (
+        <ExpenseItem {...payment} key={payment.id} />
+      ))}
+    </>
+  );
 }

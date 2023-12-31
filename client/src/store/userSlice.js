@@ -46,6 +46,13 @@ export const userSlice = createSlice({
     updatePayments(state, action) {
       state.payments = action.payload;
     },
+    logout(state, action) {
+      // localStorage.removeItem('token');
+      state.loading = false;
+      state.user = null;
+      state.error = null;
+      state.payments = [];
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -66,4 +73,4 @@ export const userSlice = createSlice({
 });
 
 export const userSliceReducer = userSlice.reducer;
-export const { addExpense, updatePayments } = userSlice.actions;
+export const { addExpense, updatePayments, logout } = userSlice.actions;

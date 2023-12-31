@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user
 from sqlalchemy.exc import IntegrityError, DataError
 from database import db, Payment, User
+from utils import send_email_notification
 from dotenv import load_dotenv
 from datetime import datetime
 import os
