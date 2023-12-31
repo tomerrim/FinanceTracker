@@ -2,6 +2,8 @@ header {
     height: 8vh;
     width: 100%;
     background-color: cornflowerblue;
+    position: fixed;
+    z-index: 1;
     top: 0;
 }
 
