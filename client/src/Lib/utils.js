@@ -29,3 +29,34 @@ export function sumExpenses(payments) {
     return isNaN(expenseMoney) ? total : total + expenseMoney;
   }, 0);
 }
+
+export function prepareChartData(payments) {
+  const categories = {};
+  payments.forEach((payment) => {
+    if (!categories[payment.category]) {
+      categories[payment.category] = parseFloat(payment.money);
+    } else {
+      categories[payment.category] += parseFloat(payment.money);
+    }
+  });
+
+  const categoryLabels = Object.keys(categories);
+  const categoryValues = Object.values(categories);
+
+  return {
+    labels: categoryLabels,
+    datasets: [
+      {
+        label: "Expenses by Category",
+        data: categoryValues,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+          // Add more colors if needed
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+}

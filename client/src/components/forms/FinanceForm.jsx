@@ -41,13 +41,12 @@ export default function FinanceForm() {
 
     return (
         <form onSubmit={submit}>
-            <h2>Add New Finance</h2>
             <Input placeholder="Title" name="title"/>
             <Input type="number" placeholder="Money" name="money"/>
             <Input type="date" name="date"/>
             <SelectInput options={categoryOptions} title="Category" name="category"/>
             <SelectInput options={paymentMethodOptions} title="Payment Method" name="paymentMethod"/>
-            <Button type="submit" className="btn">Add Finance</Button>
+            <Button type="submit" className="btn">Add Expense</Button>
         </form>
     )
 }

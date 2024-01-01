@@ -9,7 +9,8 @@ import SignUp from "./pages/SignUp";
 import HomePage from './pages/Home';
 import SignIn from './pages/SignIn';
 import AddExpensePage from './pages/AddExpense';
-import UserFinance from './pages/UserFinance/index.jsx';
+import UserFinance from './pages/UserFinance';
+import UserCharts from './pages/UserCharts';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,8 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<HomePage />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signIn" element={<SignIn />} />
-            <Route path='/:userId/finance' element={<UserFinance/>}/>
-            <Route path="/:userId/addExpense" element={<AddExpensePage/>} />
+            <Route path="/:userId/finance" element={<UserFinance />} />
+            <Route path="/:userId/charts" element={<UserCharts />} />
+            <Route path="/:userId/addExpense" element={<AddExpensePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

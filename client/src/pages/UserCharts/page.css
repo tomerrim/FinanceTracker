@@ -1,0 +1,31 @@
+h2 {
+    margin-top: 100px;
+}
+
+.chart {
+    border: 1px solid white;
+    border-radius: 10px;
+    height: 40vh;
+    margin: 20px 5px;
+    padding: 5px 20px;
+}
+
+.rowChart {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.bar {
+    width: 55%;
+    padding: 5px 20px;
+}
+
+.pie {
+    padding: 5px 20px;
+    width: 30%;
+}
+
+.lineChart {
+    width: 90vw;
+}
