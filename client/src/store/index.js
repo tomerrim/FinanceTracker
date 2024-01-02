@@ -1,6 +1,11 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import { signUpReducer } from "./signUpSlice";
 import { userSliceReducer } from "./userSlice";
+import { expenseMiddleware } from "../Lib/middlewares";
 
 const rootReducer = combineReducers({
     signUpSlice: signUpReducer,
@@ -9,4 +14,5 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
     reducer: rootReducer,
+    middleware: [...getDefaultMiddleware(), expenseMiddleware],
 });

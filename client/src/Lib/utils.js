@@ -1,4 +1,5 @@
 import { backgroundColors } from "./constants";
+import customFetch from "./customFetch";
 
 export function sortPayments(payments, field) {
     const sortedPayments = [...payments];
@@ -110,4 +111,46 @@ export function prepareLineData(payments) {
       },
     ],
   };
+}
+
+function calculateTotalExpenseForCurrentMonth(user) {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+
+  const expensesForCurrentMonth = user.payments.filter((payment) => {
+    const paymentDate = new Date(payment.date);
+    return paymentDate.getMonth() + 1 === currentMonth;
+  });
+
+  const totalExpenseForCurrentMonth = expensesForCurrentMonth.reduce(
+    (total, payment) => total + parseFloat(payment.money), 0
+  )
+  
+  return totalExpenseForCurrentMonth;
+}
+
+export async function checkAndSendEmail(user) {
+  const totalExpenseForCurrentMonth = calculateTotalExpenseForCurrentMonth(user);
+  const threshold = 1000;
+
+  if (totalExpenseForCurrentMonth > threshold) {
+    try {
+      const response = await customFetch(
+        "send-email-notification",
+        "POST",
+        JSON.stringify({ email: user.email }),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+
+      if (response.ok) {
+        console.log("Email notification sent successfully!");
+      } else {
+        console.error("Failed to send email notification");
+      }
+    } catch (error) {
+      console.error("Error occurred while sending email:", error);
+    }
+  }
 }
