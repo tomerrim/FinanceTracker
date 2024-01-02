@@ -1,10 +1,15 @@
 import { Bar } from "react-chartjs-2";
+import { prepareBarData } from "../../Lib/utils";
 
-export default function BarChart({ data }) {
-    console.log("bar chart data:", data);
+export default function BarChart({ payments }) {
+  const data = prepareBarData(payments);
   return (
-    <div className="barChart">
-      <Bar data={data}/>
-    </div>
+    <>
+      {data.labels && data.datasets && (
+        <div className="chart bar">
+          <Bar data={data} />
+        </div>
+      )}
+    </>
   );
 }

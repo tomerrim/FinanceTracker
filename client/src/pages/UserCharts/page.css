@@ -8,6 +8,9 @@ h2 {
     height: 40vh;
     margin: 20px 5px;
     padding: 5px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .rowChart {
@@ -28,4 +31,15 @@ h2 {
 
 .lineChart {
     width: 90vw;
+}
+
+@media screen and (max-width:768px) {
+    .rowChart {
+        flex-direction: column;
+    }
+
+    .chart {
+        margin: 10px 20px;
+        width: 80%;
+    }
 }
