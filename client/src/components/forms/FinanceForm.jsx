@@ -4,7 +4,6 @@ import Input from "../Inputs";
 import SelectInput from "../Inputs/SelectInput";
 import Button from "../Button";
 import { categoryOptions, paymentMethodOptions } from "../../Lib/constants";
-import { checkAndSendEmail } from "../../Lib/utils";
 import { addExpense, addNewExpense } from "../../store/userSlice";
 import "./form.css";
 
@@ -30,9 +29,8 @@ export default function FinanceForm() {
         };
 
         try {
-            dispatch(addNewExpense({userId: user.id, expense}));
+            dispatch(addNewExpense({user, expense}));
             dispatch(addExpense(expense))
-            dispatch(checkAndSendEmail(user));
             navigate(`/${user.id}/finance`)
             
         } catch (error) {

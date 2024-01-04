@@ -71,7 +71,10 @@ def sign_up():
             return jsonify({"error": "No form data received"}), 400
     except Exception as e:
         app.logger.error(f"Error during sign up: {str(e)}")
-        return jsonify({"error": "An error occurred during sign up. Please try again."}), 500
+        return (
+            jsonify({"error": "An error occurred during sign up. Please try again."}),
+            500,
+        )
         # flash("An error occured while signing up. Please try Again.")
         # return redirect(url_for("sign_up"))
 
@@ -85,9 +88,8 @@ def sign_in():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             # User authentication successful
-            # You may use Flask-Login's login_user function here if you are using it
             login_user(user)
-            session['user_id'] = user.id  # Store user ID in session
+            session["user_id"] = user.id  # Store user ID in session
 
             payments_list = [
                 {
@@ -96,7 +98,7 @@ def sign_in():
                     "date": payment.date.strftime("%Y-%m-%d"),
                     "money": payment.money,
                     "category": payment.category,
-                    "payment_method": payment.payment_method
+                    "payment_method": payment.payment_method,
                 }
                 for payment in user.payments
             ]
@@ -105,7 +107,7 @@ def sign_in():
                 "id": user.id,
                 "name": user.name,
                 "email": user.email,
-                "payments": payments_list
+                "payments": payments_list,
             }
             return jsonify({"success": "Sign in successful", "user": user_data}), 200
         else:
@@ -128,7 +130,7 @@ def get_finance_by_user(user_id):
                 "date": payment.date.strftime("%Y-%m-%d"),
                 "money": payment.money,
                 "category": payment.category,
-                "payment_method": payment.payment_method
+                "payment_method": payment.payment_method,
             }
             for payment in user_payments
         ]
@@ -144,7 +146,7 @@ def get_user_by_id(user_id):
             "id": user.id,
             "name": user.name,
             "email": user.email,
-            "payments": user.payments
+            "payments": user.payments,
         }
         return jsonify(user_data), 200
     else:
@@ -161,7 +163,7 @@ def add_expense(user_id):
         payment_method = request.form.get("payment_method")
 
         # Parse the date string without time information
-        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
 
         new_payment = Payment(
             user_id=user_id,
@@ -180,6 +182,19 @@ def add_expense(user_id):
     except Exception as e:
         app.logger.error(f"Failed to add expense: {str(e)}")
         return jsonify({"error": "Failed to add expense. Internal Server Error "}), 500
+
+
+@app.route("/send-email-notification", methods=["POST"])
+def send_email():
+    try:
+        data = request.get_json()
+        print(f"data: {data}")
+        email = data.get("email")
+        send_email_notification(email)
+        return jsonify({"message": "Email sent successfully"}), 200
+    except Exception as e:
+        app.logger.error(f"Error during send email: {str(e)}")
+        return jsonify({"error": f"Failed to send email: {str(e)}"}), 500
 
 
 if __name__ == "__main__":

@@ -130,27 +130,38 @@ function calculateTotalExpenseForCurrentMonth(user) {
 }
 
 export async function checkAndSendEmail(user) {
-  const totalExpenseForCurrentMonth = calculateTotalExpenseForCurrentMonth(user);
-  const threshold = 1000;
+  console.log("check and send email user: ", user);
+  const currentDate = new Date();
+  const currentMonthKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`;
+  const hasSentEmailForCurrentMonth = localStorage.getItem(currentMonthKey);
 
-  if (totalExpenseForCurrentMonth > threshold) {
-    try {
-      const response = await customFetch(
-        "send-email-notification",
-        "POST",
-        JSON.stringify({ email: user.email }),
-        {
-          "Content-Type": "application/json",
+  if (!hasSentEmailForCurrentMonth) {
+
+    const totalExpenseForCurrentMonth = calculateTotalExpenseForCurrentMonth(user);
+    const threshold = 1000;
+    
+    if (totalExpenseForCurrentMonth > threshold) {
+      try {
+        const response = await customFetch(
+          "send-email-notification",
+          "POST",
+          JSON.stringify({ email: user.email }),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+
+        console.log("response: ", response);
+        
+        if (response.status === 200) {
+          console.log("Email notification sent successfully!");
+          localStorage.setItem(currentMonthKey, "sent");
+        } else {
+          console.error("Failed to send email notification");
         }
-      );
-
-      if (response.ok) {
-        console.log("Email notification sent successfully!");
-      } else {
-        console.error("Failed to send email notification");
+      } catch (error) {
+        console.error("Error occurred while sending email:", error);
       }
-    } catch (error) {
-      console.error("Error occurred while sending email:", error);
     }
   }
 }

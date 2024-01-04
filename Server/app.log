@@ -74,3 +74,7 @@
 2023-12-29 22:46:45,480 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
 2023-12-29 22:47:35,238 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
 2023-12-29 22:48:06,782 - ERROR - Error during sign in: Object of type Payment is not JSON serializable
+2024-01-03 15:41:21,031 - ERROR - Error during send email: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-01-03 16:25:36,744 - ERROR - Error during send email: 'ascii' codec can't encode character '\u20aa' in position 51: ordinal not in range(128)
+2024-01-03 16:34:40,075 - ERROR - Error during send email: 'ascii' codec can't encode character '\u20aa' in position 51: ordinal not in range(128)
+2024-01-03 16:47:53,590 - DEBUG - Received form data: ImmutableMultiDict([('name', 'tomer'), ('email', 'tomerrimler@gmail.com'), ('password', 'Tomer12345')])

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import customFetch from "../Lib/customFetch";
+import { checkAndSendEmail } from "../Lib/utils";
 
 export const fetchUser = createAsyncThunk(
   "userSlice/fetchUser",
@@ -20,11 +21,13 @@ export const fetchUser = createAsyncThunk(
 
 export const addNewExpense = createAsyncThunk(
   "userSlice/addExpense",
-  async ( { userId, expense }, { rejectWithValue }) => {
+  async ( { user, expense }, { rejectWithValue }) => {
     try {
-      return await customFetch(`${userId}/addExpense`, "POST", expense, {
+      const response = await customFetch(`${user.id}/addExpense`, "POST", expense, {
         "Content-Type": "application/x-www-form-urlencoded",
       });
+      await checkAndSendEmail(user);
+      return response;
     } catch (error) {
       return rejectWithValue({error: error.message})
     }
@@ -62,7 +65,7 @@ export const userSlice = createSlice({
     })
     .addCase(fetchUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload.user;
+      state.user = action.payload.data.user;
     })
     .addCase(fetchUser.rejected, (state, action) => {
       state.loading = false;

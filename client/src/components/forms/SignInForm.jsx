@@ -15,8 +15,9 @@ export default function SignInForm() {
     const password = formData.get("password");
     try {
       const response = await dispatch(fetchUser({ email, password }));
-      dispatch(updatePayments(response.payload.user.payments))
-      navigate(`/${response.payload.user.id}/finance`);
+      const currentUser = response.payload.data.user;
+      dispatch(updatePayments(currentUser.payments))
+      navigate(`/${currentUser.id}/finance`);
     } catch (error) {
       console.error("Error: ", error);
     }

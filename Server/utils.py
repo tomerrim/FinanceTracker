@@ -10,7 +10,8 @@ password = os.getenv("EMAIL_PASSWORD")
 
 
 def send_email_notification(email):
-    msg = "You spent more than 1000₪ this month."
+    print("send email notification function")
+    msg = "You spent more than 1000 shekels this month."
     with smtplib.SMTP("smtp.gmail.com") as connection:
         connection.starttls()
         connection.login(user=system_email, password=password)

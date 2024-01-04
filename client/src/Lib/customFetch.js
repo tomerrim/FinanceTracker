@@ -6,10 +6,14 @@ export default async function customFetch(url, method, data, headers) {
       const response = await axios({
         method,
         url: `${baseUrl}/${url}`,
-        data,
+        data: method === "GET" ? undefined : data,
+        params: method === "GET" ? data : undefined,
         headers,
       });
-      return response.data;
+      return {
+        status: response.status,
+        data: response.data,
+      };
     } catch (error) {
         console.error("Error: ", error);
         throw new Error("Failed to fetch data. Please try again.");

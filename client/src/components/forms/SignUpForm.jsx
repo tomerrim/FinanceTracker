@@ -1,18 +1,20 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Input from "../Inputs";
 import Button from "../Button";
 import { createUser } from "../../store/signUpSlice";
 
 export default function SignUpForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   async function submit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const name = formData.get("name");
     const email = formData.get("email");
     const password = formData.get("password");
-    console.log("Form data to send:", { name, email, password });
     dispatch(createUser({ name, email, password }));
+    navigate("/signIn");
   }
 
   return (

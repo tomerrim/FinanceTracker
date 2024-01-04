@@ -37,7 +37,7 @@ export default function Header() {
               <Link to={`/${user.id}/charts`} className="item">Charts</Link>  
               {/* add charts later */}
             </>
-            ) : <>Welcome to Finance tracker</>}
+            ) : <>Finance tracker</>}
         </div>
         <div className="auth">
           {user === null ? (
