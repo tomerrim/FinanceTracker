@@ -1,17 +1,28 @@
 header {
-    height: 8vh;
-    width: 100%;
-    background-color: cornflowerblue;
     position: fixed;
-    z-index: 1;
-    top: 0;
+    top: 0px;
+    left: 0px;
+    height: 70px;
+    width: 70px;
+    line-height: 75px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+header:before {
+    content: "";
+    position: absolute;
+    background-color: cornflowerblue;
+    width: 230%;
+    height: 200px;
+    border-radius: 50%;
+    top: -110px;
+    left: -100%;
+    z-index: -1;
 }
 
 nav {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: larger;
+    padding: 0 20px;
 }
 
 span {
@@ -19,34 +30,45 @@ span {
     align-items: center;
 }
 
-.wrapper {
-    display: flex;
-    width: 30vw;
-    align-items: center;
-    justify-content: space-evenly;
-    margin: 2vh 0;
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
 }
 
-.auth {
-    display: flex;
+.overlay.show {
     width: 100%;
-    justify-content: end;
 }
 
-.button {
-    margin: 0 10px;
-}
-
-.item {
-    justify-content: center;
-    padding: 5px 10px;
-    background-color: #7cadf8;
-    border-radius: 5px;
+.overlay-content {
+    position: absolute;
+    top: 25%;
+    width: 100%;
     text-align: center;
-    height: 30px;
+    margin-top: 30px;
 }
 
-.item:hover {
-    background-color: #6ba2e4;
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover,
+.overlay a:focus {
+    color: #f1f1f1;
+}
+
+.hamburger {
+    font-size: 30px;
     cursor: pointer;
 }

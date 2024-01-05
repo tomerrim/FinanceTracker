@@ -3,6 +3,7 @@
     width: 90%;
     position: relative;
     margin: 5%;
+    z-index: -1;
 }
 
 .line {
@@ -18,5 +19,5 @@
 }
 
 hr {
-    border: 1px solid gray;
+    border: 1px solid rgb(65, 64, 64);
 }

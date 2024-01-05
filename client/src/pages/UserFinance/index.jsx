@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ExpenseItem from "../../components/ExpenseItem";
@@ -7,6 +7,7 @@ import SelectInput from "../../components/Inputs/SelectInput";
 import "./page.css";
 import { sortOptions } from "../../Lib/constants";
 import { sortPayments, sumExpenses } from "../../Lib/utils";
+import ExpenseItemSkeleton from "../../components/Skeletons/ExpenseItemSkeleton";
 
 export default function UserFinance() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function UserFinance() {
 
   return (
     <>
-      <h2>Your Finances</h2>
+      <h2>Hello {user.name}, here are your expenses</h2>
       <div className="row">
         <h3 className="total">Total: {totalExpenses}₪</h3>
         <Button onClick={navToAddExpensePage}>Add Expense</Button>
@@ -49,7 +50,9 @@ export default function UserFinance() {
         onChange={handleSortChange}
       />
       {userPayments.map((payment) => (
-        <ExpenseItem {...payment} key={payment.id} />
+        <Suspense key={payment.id} fallback={<ExpenseItemSkeleton/>}>
+          <ExpenseItem {...payment} key={payment.id} />
+        </Suspense>
       ))}
     </>
   );

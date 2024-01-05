@@ -1,21 +1,14 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/userSlice";
-import Button from "../Button";
 import "./header.css";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.userSlice.user);
-
-  function navToSignIn() {
-    navigate("/signIn")
-  }
-
-  function navToSignUp() {
-    navigate('/signUp')
-  }
+  const [showOverlay, setShowOverlay] = useState(false);
 
   function navToHome() {
     navigate('/');
@@ -26,33 +19,40 @@ export default function Header() {
     navToHome();
   }
 
+  function toggleOverlay() {
+    setShowOverlay(!showOverlay)
+  }
+
   return (
     <header className="header">
       <nav>
-        <Button onClick={navToHome}>Home</Button>
-        <div className="wrapper">
-          {user ? (
-            <>
-              <Link to={`/${user.id}/finance`} className="item">Finance</Link>
-              <Link to={`/${user.id}/charts`} className="item">Charts</Link>  
-              {/* add charts later */}
-            </>
-            ) : <>Finance tracker</>}
-        </div>
-        <div className="auth">
+        <span
+          className="hamburger"
+          onClick={toggleOverlay}
+        >
+          &#9776;
+        </span>
+      </nav>
+      <div
+        className={`overlay ${showOverlay ? "show" : ""}`}
+        onClick={toggleOverlay}
+      >
+        <div className="overlay-content">
+          <Link to={"/"}>Home</Link>
           {user === null ? (
             <>
-              <Button onClick={navToSignUp}>Sign Up</Button>
-              <Button onClick={navToSignIn}>Sign In</Button>
+              <Link to="/signup">Sign Up</Link>
+              <Link to="/signIn">Sign In</Link>
             </>
           ) : (
             <>
-              <span>Hello, {user?.name}</span>
-              <Button onClick={logoutUser}>Log Out</Button>
+              <Link to={`/${user.id}/finance`}>Expenses</Link>
+              <Link to={`/${user.id}/charts`}>Charts</Link>
+              <Link to={"/"} onClick={logoutUser}>Log Out</Link>
             </>
           )}
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
